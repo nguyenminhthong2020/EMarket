@@ -1,0 +1,65 @@
+﻿@model EMarket.Models.Role
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    ViewBag.PageController = "AdminRoles";
+    ViewBag.PageAction = "Create";
+    ViewBag.PageControllerName = "Quản lý quyền truy cập";
+    ViewBag.PageActionName = "Xóa";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="Index">@ViewBag.PageControllerName</a>
+            <a asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="@ViewBag.PageAction"><span class="breadcrumb-item active"> > @ViewBag.PageActionName</span></a>
+        </nav>
+    </div>
+</div>
+<h2 class="mb-4">Xóa quyền truy cập</h2>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="product-info-table m-t-20">
+                        <tbody>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.RoleId)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.RoleId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.RoleName)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.RoleName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Description)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Description)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold text-danger">Xác nhận xóa ?</td>
+                                <td>
+                                    <form asp-action="Delete" asp-route-id="@Model.RoleId">
+                                        <input type="submit" value="Xóa" class="btn btn-danger" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4">
+    <a asp-action="Index">&nbsp;< Quay lại</a>
+</div>
