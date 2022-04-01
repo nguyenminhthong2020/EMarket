@@ -1,6 +1,6 @@
 using System;
 
-namespace EMarket.Models
+namespace EMarket.Areas.Admin.Models
 {
     public class ErrorViewModel
     {
