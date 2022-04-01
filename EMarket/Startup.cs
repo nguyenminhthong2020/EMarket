@@ -1,14 +1,18 @@
-using AspNetCoreHero.ToastNotification;
+﻿using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using EMarket.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace EMarket
@@ -26,7 +30,15 @@ namespace EMarket
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            
+
+            var strConnectDb = Configuration.GetConnectionString("EMarketContext");
+            services.AddDbContext<dbMarketsContext>(options =>
+                    options.UseSqlServer(strConnectDb));
+
+            // Để hiểu các ký tự tiếng Việt, unicode.
+            // Còn nhớ lúc in value của form hồi xưa không ? 
+            services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
+
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopCenter; });
             services.AddToastify(config => { config.DurationInSeconds = 1000; config.Position = Position.Left; config.Gravity = Gravity.Bottom; });
         }
