@@ -1,0 +1,185 @@
+﻿@model EMarket.Models.Product
+
+
+@{
+    ViewData["Title"] = "Thông tin sản phẩm " + Model.ProductName;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    ViewBag.PageController = "AdminProducts";
+    ViewBag.PageAction = "Index";
+    ViewBag.PageControllerName = "Quản lý sản phẩm";
+    ViewBag.PageActionName = "Chi tiết";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="Index">@ViewBag.PageControllerName</a>
+            <a asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="@ViewBag.PageAction"><span class="breadcrumb-item active"> > @ViewBag.PageActionName</span></a>
+        </nav>
+    </div>
+</div>
+<h2 class="mb-4">Thông tin sản phẩm</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="product-info-table m-t-20">
+                        <tbody>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.ProductId)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ProductId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.ProductName)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ProductName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Mô tả ngắn</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ShortDesc)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Giá bán</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Price)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Active</td>
+                                <td>
+                                    @if (Model.Active)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">BestSellers</td>
+                                <td>
+                                    @if (Model.BestSellers)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">HomeFlag</td>
+                                <td>
+                                    @if (Model.HomeFlag)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Giảm giá (%)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Discount)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Danh mục</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Cat.CatName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ngày tạo</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.DateCreated)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ngày chỉnh sửa</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.DateModified)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Tiêu đề</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Title)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">MetaDesc</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.MetaDesc)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">MetaKey</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.MetaKey)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Tags</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Tags)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ảnh đại diện</td>
+                                <td>
+                                    <img width="200" height="200" src="~/images/products/@Model.Thumb" alt="@Model.Title" />
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div>
+                        <div class="text-dark font-weight-semibold">Mô tả sản phẩm</div>
+                    </div>
+                    <div>
+                        <div>
+                            @Html.Raw(Model.Description)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Index">&nbsp;< Quay lại</a>
+</div>

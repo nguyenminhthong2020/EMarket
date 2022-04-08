@@ -1,0 +1,124 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<EMarket.Models.Order>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách đơn hàng trang " + CurrentPage;
+
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-action="Index">Quản lý đơn hàng</a>
+            <span class="breadcrumb-item active">@ViewData["Title"]</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive" style="overflow: hidden;">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Đơn hàng</th>
+                        <th>Ngày mua</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(_ => item.OrderId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(_ => item.Customer.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(_ => item.OrderDate)
+                            </td>
+                            <td>@item.TotalMoney.ToString("#,##0") VNĐ</td>
+                            <td>@Html.DisplayFor(_ => item.TransactStatus.Status)</td>
+                            <td class="text-right">
+                                <a class="btn btn-primary m-r-5" asp-action="Details" asp-route-id="@item.OrderId">Chi tiết</a>
+                                @*<a class="btn btn-warning m-r-5" asp-action="ChangeStatus" asp-route-id="@item.OrderId">Cập nhật trạng thái</a>*@
+                                <button type="button" class="mybutton btn btn-warning m-r-5" data-toggle="modal" data-target="#exampleModal" data-orderid="@item.OrderId">
+                                    Cập nhật trạng thái
+                                </button>
+                                <a class="btn btn-warning m-r-5" asp-action="Edit" asp-route-id="@item.OrderId">Sửa</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OrderId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="d-flex flex-row justify-content-center">
+                <ul class="pagination">
+                    <pager class="pager-container"
+                           list="@Model"
+                           options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext"
+                           asp-area="Admin"
+                           asp-controller="AdminOrders"
+                           asp-action="Index"></pager>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông tin đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.mybutton').click(function () {
+                var _id = $(this).attr('data-orderid');
+
+                $.ajax({
+                    url: 'AdminOrders/ChangeStatus',
+                    type: "GET",
+                    //dataType: "JSON",
+                    data: { id: _id },
+                    success: function (results) {
+
+                        $('.modal-body').html('');
+                        $('.modal-body').html(results);
+                    },
+                    error: function (error) {
+                        alert("There was an error posting the data to the server:" + error.responseText);
+                    }
+                });
+
+            })
+        })
+    </script>
+}
+

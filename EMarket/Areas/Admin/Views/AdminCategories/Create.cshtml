@@ -1,0 +1,129 @@
+﻿@model EMarket.Models.Category
+
+@{
+    ViewData["Title"] = "Thêm mới danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-controller="AdminCategories" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+
+            </div>
+            <div class="m-b-15">
+                <button class="btn btn-success" type="submit">
+                    <i class="anticon anticon-save"></i>
+                    <span>Thêm</span>
+                </button>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Thông tin cơ bản</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-option">Thông tin SEO</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-description">Mô tả</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-semibold" asp-for="CatName">@Html.DisplayNameFor(Model => Model.CatName)</label>
+                        <input type="text" class="form-control" asp-for="CatName">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" asp-for="Ordering">Ordering</label>
+                        <input type="text" class="form-control" asp-for="Ordering">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">Ảnh đại diện</label>
+                        <input type="file" name="fThumb" class="form-control-file" asp-for="Thumb" />
+                        <span asp-validation-for="Thumb" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="m-t-25">
+                            <div class="form-group d-flex align-items-center">
+                                <div class="switch m-r-10">
+                                    <input type="checkbox" asp-for="Published" checked="">
+                                    <label for="Published"></label>
+                                </div>
+                                <label>Public</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="product-edit-option">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-semibold">Title</label>
+                        <input type="text" class="form-control" asp-for="Title">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">MetaDesc</label>
+                        <input type="text" class="form-control" asp-for="MetaDesc">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">MetaKey</label>
+                        <input type="text" class="form-control" asp-for="MetaKey">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">SchemaMarkup</label>
+                        <input type="text" class="form-control" asp-for="SchemaMarkup">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="product-edit-description">
+            <div class="card">
+                <div class="card-body">
+                    <textarea asp-for="Description">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<hr />
+
+@section CSS{
+    <style>
+        .ck.ck-editor__main > .ck-editor__editable {
+            min-height: 200px !important;
+        }
+    </style>
+}
+
+@section Scripts{
+
+    <script src="~/Adminassets/vendors/select2/select2.min.js"></script>
+    <script src="~/Adminassets/vendors/quill/quill.min.js"></script>
+    <script src="~/Adminassets/js/pages/e-commerce-product-edit.js"></script>
+    <script src="~/Adminassets/vendors/ckeditor/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Description'), {
+                licenseKey: '',
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error('Oops, something went wrong!');
+                console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                console.warn('Build id: mxefwd8uabpg-nvqywtx4rvf5');
+                console.error(error);
+            });
+    </script>
+}
+

@@ -1,0 +1,173 @@
+﻿@model IEnumerable<EMarket.Models.Account>
+
+@{
+    ViewData["Title"] = "Danh sách tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminAccounts" asp-action="Index" class="breadcrumb-item">Quản lý tài khoản</a>
+            <span class="breadcrumb-item active">Danh sách</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-3">
+                <a class="btn btn-success" asp-action="Create">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm</span>
+                </a>
+            </div>
+            <div class="col-lg-9 text-right">
+                <div class="d-md-flex flex-row justify-content-end" style="width: 100%;">
+                    <div class="m-b-10 m-r-15" style="min-width: 200px;">
+                        <select asp-items="@ViewBag.QuyenTruyCap"
+                                required
+                                class="custom-select"
+                                style="min-width: 100%;"
+                                id="idrole" name="idrole">
+                            <option value="-1" disabled selected class="font-weight-bold">Quyền truy cập</option>
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 myclass2" style="min-width: 200px;">
+                        <select asp-items="@ViewBag.lstTrangThai"
+                                required
+                                class="custom-select"
+                                style="min-width: 100%;"
+                                id="idstatus" name="idstatus">
+                            <option value="-1" disabled selected class="font-weight-bold">Trạng thái</option>
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>@Html.DisplayNameFor(model => model.FullName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Email)</th>
+                        <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                        <th>@Html.DisplayNameFor(model => model.LastLogin)</th>
+                        <th>Quyền truy cập</th>
+                        <th>@Html.DisplayNameFor(model => model.Active)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyAdminAccounts">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AccountId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td> @Html.DisplayFor(modelItem => item.Phone)</td>
+                                <td> @Html.DisplayFor(modelItem => item.LastLogin)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Role.Description)</td>
+                                <td>
+                                    @if (item.Active == true)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Hoạt động</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Không hoạt động</div>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary m-r-5" asp-action="Details" asp-route-id="@item.AccountId">Chi tiết</a>
+                                    <a class="btn btn-warning m-r-5" asp-action="Edit" asp-route-id="@item.AccountId">Sửa</a>
+                                    <a class="btn btn-danger m-r-5" asp-action="Delete" asp-route-id="@item.AccountId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var roleSelect = document.querySelectorAll('select')[0];
+
+            roleSelect.addEventListener('change', function (e) {
+                $.ajax({
+                    method: "GET",
+                    url: `${window.location.origin}/Admin/AdminAccounts/Search?roleId=${this.options[this.selectedIndex].value}`,
+                })
+                    .done(function (msg) {
+                        if (msg != undefined) {
+                            console.log(msg)
+                            //console.log(msg.length);
+
+                            let str_tbody = `<tbody id="tbodyAdminAccounts">`;
+                            msg.forEach(function (item) {
+                                str_tbody += `<tr><td>${item.accountId}</td>
+                                                                                                                           <td>${item.fullName}</td>
+                                                                                                                           <td>
+                                                                                                                            ${item.email}
+                                                                                                                           </td>
+                                                                                                                           <td>${item.phone}</td>
+                                                                                                                            <td>${item.role != null ? item.role.description : ""}</td>
+                                                                                                                            <td>
+                                                                                                                            ${item.active == true
+                                        ?
+                                        `<div class="d-flex align-items-center">
+                                                                                                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                                                                                                              <div>Hoạt động</div>
+                                                                                                                                  </div>`
+                                        :
+                                        `<div class="d-flex align-items-center">
+                                                                                                                          <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                                                                                              <div>Không hoạt động</div>
+                                                                                                                                   </div>`
+                                    }</td>
+                                                                                                                  <td>
+                                                                                                                     <a class="btn btn-primary m-r-5" asp-action="Details" asp-route-id="${item.accountId}">Chi tiết</a>
+                                                                                                                     <a class="btn btn-warning m-r-5" asp-action="Edit" asp-route-id="${item.accountId}">Sửa</a>
+                                                                                                                      <a class="btn btn-danger m-r-5" asp-action="Delete" asp-route-id="${item.accountId}">Xóa</a>
+                                                                                                                      </td>
+                                                                                                                  </tr>`;
+                            })
+
+                            str_tbody += `</tbody>`;
+
+
+                            document.getElementById('tbodyAdminAccounts').innerHTML = str_tbody;
+
+                        }
+                    }).fail(function (err) {
+                        alert('Failed: ' + err);
+                    })
+            })
+        })
+
+    </script>
+}

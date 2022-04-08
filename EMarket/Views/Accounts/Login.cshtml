@@ -1,0 +1,39 @@
+﻿@model EMarket.ModelViews.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="login-register-area section-space-y-axis-100">
+    <div class="container">
+        <div class="row d-flex flex-row justify-content-center">
+            <div class="col-lg-6 pt-10 pt-lg-0">
+                <form method="POST">
+                    <div class="login-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <h4 class="login-title">Đăng nhập</h4>
+                        <div class="row ">
+                            <div class="col-md-12 pb-3">
+                                <label>Nhập Email</label>
+                                <input asp-for="UserName" placeholder="">
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-12 pb-3">
+                                <label>Mật khẩu</label>
+                                <input asp-for="Password" placeholder="Mật khẩu">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-12 pb-4">
+                                Chưa có tài khoản? &nbsp;<a href="/dang-ky.html" style="color: rgb(186, 195, 78);">Đăng ký</a>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-custom-size lg-size btn-secondary btn-primary-hover rounded-0">Đăng nhập</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

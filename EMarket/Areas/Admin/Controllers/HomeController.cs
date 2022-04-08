@@ -1,4 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,16 @@ namespace EMarket.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            _notifyService.Success("Hiện lên nè :v");
+            //string taikhoanID = HttpContext.Session.GetString("AdminAccountId");
+            //int? taikhoanRole = HttpContext.Session.GetInt32("AdminRoleId");
+
+            //if ((User.IsInRole("admin") || User.IsInRole("staff")) && taikhoanID != null && taikhoanRole != null)
+            //{
+            //    if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            //        return View();
+            //}
+
+            //return Redirect("/admin/login.html");
             return View();
         }
     }

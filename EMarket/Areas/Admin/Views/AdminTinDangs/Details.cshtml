@@ -1,0 +1,188 @@
+﻿@model EMarket.Models.TinDang
+
+
+@{
+    ViewData["Title"] = "Thông tin Tin đăng " + Model.PostId;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    ViewBag.PageController = "AdminTinDangs";
+    ViewBag.PageAction = "Index";
+    ViewBag.PageControllerName = "Quản lý tin";
+    ViewBag.PageActionName = "Chi tiết";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="Index">@ViewBag.PageControllerName</a>
+            <a asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="@ViewBag.PageAction"><span class="breadcrumb-item active"> > @ViewBag.PageActionName</span></a>
+        </nav>
+    </div>
+</div>
+<h2 class="mb-4">Thông tin chi tiết Tin</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="product-info-table m-t-20">
+                        <tbody>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.PostId)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.PostId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Title)</td>
+                                <td>
+                                    Tiêu đề
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Mô tả ngắn</td>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Scontents)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Public</td>
+                                <td>
+                                    @if (Model.Published)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">IsHot</td>
+                                <td>
+                                    @if (Model.IsHot)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">IsNewfeed</td>
+                                <td>
+                                    @if (Model.IsNewfeed)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Alias</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Alias)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ngày tạo</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.CreatedDate)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">MetaDesc</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.MetaDesc)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">MetaKey</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.MetaKey)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ảnh đại diện</td>
+                                <td>
+                                    <img width="200" height="200" src="~/images/news/@Model.Thumb" alt="@Model.Title" />
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="mt-1">
+                        <h5 class="text-dark font-weight-semibold">Mô tả sản phẩm</h5>
+                        <div class="mt-2">
+                            <textarea asp-for="Contents">
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Index">&nbsp;< Quay lại</a>
+</div>
+
+@section CSS{
+    <style>
+        .ck.ck-editor__main > .ck-editor__editable {
+            min-height: 200px !important;
+        }
+    </style>
+}
+
+@section Scripts{
+
+    <script src="~/Adminassets/vendors/select2/select2.min.js"></script>
+    <script src="~/Adminassets/vendors/quill/quill.min.js"></script>
+    <script src="~/Adminassets/js/pages/e-commerce-product-edit.js"></script>
+    <script src="~/Adminassets/vendors/ckeditor/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Contents'), {
+                licenseKey: '',
+
+            })
+            .then(editor => {
+                window.editor = editor;
+
+                editor.isReadOnly = true;
+            })
+            .catch(error => {
+                console.error('Oops, something went wrong!');
+                console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                console.warn('Build id: mxefwd8uabpg-nvqywtx4rvf5');
+                console.error(error);
+            });
+    </script>
+}

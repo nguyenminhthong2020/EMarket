@@ -2,6 +2,8 @@
 using EMarket.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using EMarket.ModelViews;
+using EMarket.Areas.Admin.Models;
 
 #nullable disable
 
@@ -368,5 +370,11 @@ namespace EMarket.Data
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<EMarket.ModelViews.RegisterVM> RegisterVM { get; set; }
+
+        public DbSet<EMarket.ModelViews.LoginViewModel> LoginViewModel { get; set; }
+
+        public DbSet<EMarket.Areas.Admin.Models.ChangePasswordViewModel> ChangePasswordViewModel { get; set; }
     }
 }
