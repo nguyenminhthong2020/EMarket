@@ -1,0 +1,32 @@
+﻿@model EMarket.ModelViews.XemDonHang
+
+<hr style="margin-top: 50px;" />
+<h4 class="mb-4">Thông tin đơn hàng &nbsp;#@Model.DonHang.OrderId</h4>
+<p>Ngày đặt hàng:&nbsp;&nbsp;&nbsp;@Model.DonHang.OrderDate</p>
+<p>Trạng thái đơn hàng:&nbsp;&nbsp;&nbsp;@Model.DonHang.TransactStatus.Description</p>
+<p>Thành tiền:&nbsp;&nbsp;&nbsp;@Model.DonHang.TotalMoney.ToString("#,##0") VNĐ</p>
+<p>Ngày ship hàng:&nbsp;&nbsp;&nbsp;@Model.DonHang.ShipDate</p>
+
+<table class="table table-hover table-light">
+    <thead class="table-dark">
+        <tr>
+            <td class="font-weight-bold">ID</td>
+            <td class="font-weight-bold">Sản phẩm</td>
+            <td class="font-weight-bold">Số lượng</td>
+            <td class="font-weight-bold">Đơn giá</td>
+            <td class="font-weight-bold">Thành tiền</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ChiTietDonHang)
+        {
+            <tr>
+                <td>@item.OrderId</td>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Amount.Value</td>
+                <td>@item.Product.Price.Value.ToString("#,##0") VNĐ</td>
+                <td>@((item.Product.Price.Value* item.Amount.Value).ToString("#,##0")) VNĐ</td>
+            </tr>
+        }
+    </tbody>
+</table>

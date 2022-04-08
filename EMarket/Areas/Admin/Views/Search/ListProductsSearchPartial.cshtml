@@ -1,0 +1,126 @@
+﻿@model List<EMarket.Models.Product>
+
+
+<table class="table table-hover e-commerce-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Giá</th>
+            <th>Tồn kho</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="myBody">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(_ => item.ProductId)
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(_ => item.ProductName)</h6>
+                    </div>
+                </td>
+                <td>@Html.DisplayFor(_ => item.Cat.CatName)</td>
+                <td>@Html.DisplayFor(_ => item.Price)</td>
+                <td>@Html.DisplayFor(_ => item.UnitsInStock)</td>
+                <td>
+                    @if (item.UnitsInStock.Value > 0)
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="badge badge-success badge-dot m-r-10"></div>
+                            <div>Còn hàng</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                            <div>Hết hàng</div>
+                        </div>
+                    }
+                </td>
+                <td class="text-right">
+                    <a class="btn btn-primary m-r-5" asp-action="Details" asp-route-id="@item.ProductId">Chi tiết</a>
+                    <a class="btn btn-warning m-r-5" asp-action="Edit" asp-route-id="@item.ProductId">Sửa</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (ViewBag.Num == 0)
+{
+    <div class="Page navigation example d-flex flex-row justify-content-end">
+        <div class="pagination">
+            <nav class="page-container">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+}
+@if (ViewBag.Num == 1)
+{<div class="Page navigation example d-flex flex-row justify-content-end">
+        <div class="pagination">
+            <nav class="page-container">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Num > 1)
+{
+    <div class="Page navigation example d-flex flex-row justify-content-end">
+        <div class="pagination">
+            <nav class="page-container">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled": "")">
+                        <a class="page-link" tabindex="-1"
+                           href="/Admin/AdminProducts?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search&catId=@ViewBag.CatId">Previous</a>
+                    </li>
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "active" : "")">
+                        <a class="page-link"
+                           href="/Admin/AdminProducts?page=1&search=&catId=@ViewBag.CatId">
+                            1
+                        </a>
+                    </li>
+                    @for (int i = 2; i <= ViewBag.Num; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link"
+                               href="/Admin/AdminProducts?page=@i&search=@ViewBag.Search&catId=@ViewBag.CatId">
+                                @i
+                            </a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.Num ? "disabled": "")">
+                        <a class="page-link" href="/Admin/AdminProducts?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search&catId=@ViewBag.CatId">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+}

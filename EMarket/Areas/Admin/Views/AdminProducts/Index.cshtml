@@ -1,0 +1,193 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<EMarket.Models.Product>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách sản phẩm trang " + CurrentPage;
+
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-action="Index">Quản lý sản phẩm</a>
+            <span class="breadcrumb-item active">@ViewData["Title"]</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-10">
+            <div class="col-lg-4 text-left">
+                <div class="d-md-flex justify-content-start w-100">
+                    <div class="m-b-10 w-100">
+                        <form id="frmHidden" method="GET" asp-area="Admin" asp-controller="AdminProducts" asp-action="Index" style="width: 100%;">
+                            <input type="hidden" name="catId" value="@ViewBag.CatId" id="catId" readonly />
+                            <div class="form-row align-items-center w-100">
+                                <div class="col-sm-12 input-affix m-b-10 w-100">
+                                    <i class="prefix-icon anticon anticon-search"></i>
+                                    <input type="text" value="@ViewBag.Search" name="search" id="search" class="form-control w-100" placeholder="Tên sản phẩm cần tìm..." style="background-color: #edeaea;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-left">
+                <div class="w-100">
+                    <div class="m-b-10 w-100">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row d-md-flex justify-content-end">
+                    <div class="m-b-30 col-8" style="min-width: 200px;">
+                        <select asp-items="@ViewBag.DanhMuc"
+                                required
+                                class="custom-select w-100"
+                                style="min-width: 100%;"
+                                id="txtCatID" name="txtCatID">
+                            <option value="" disabled selected class="font-weight-bold">Danh mục</option>
+                            <option value="0" style="font-style: italic;">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-right">
+                            <a class="btn btn-success" asp-action="Create">
+                                <i class="anticon anticon-plus-circle m-r-5"></i>
+                                <span>Thêm</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" id="myPartial" style="overflow: hidden;">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Tồn kho</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="myBody">
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(_ => item.ProductId)
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="m-b-0 m-l-10">@Html.DisplayFor(_ => item.ProductName)</h6>
+                                </div>
+                            </td>
+                            <td>@Html.DisplayFor(_ => item.Cat.CatName)</td>
+                            <td>@Html.DisplayFor(_ => item.Price)</td>
+                            <td>@Html.DisplayFor(_ => item.UnitsInStock)</td>
+                            <td>
+                                @if (item.UnitsInStock.Value > 0)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div>Còn hàng</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                        <div>Hết hàng</div>
+                                    </div>
+                                }
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-primary m-r-5" asp-action="Details" asp-route-id="@item.ProductId">Chi tiết</a>
+                                <a class="btn btn-warning m-r-5" asp-action="Edit" asp-route-id="@item.ProductId">Sửa</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="Page navigation example d-flex flex-row justify-content-center mt-1">
+                <ul class="pagination">
+                    <pager class="pager-container"
+                           list="@Model"
+                           asp-area="Admin"
+                           asp-controller="AdminProducts"
+                           asp-action="Index"
+                           asp-route-catId="@ViewBag.CatId"
+                           asp-route-search="@ViewBag.Search"></pager>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function (e) {
+            // Lấy ra data từ TempData
+            @*var _search = '@TempData["Search"]';
+            var _catid = '@TempData["CatId"]';
+            if (_search != '') {
+                document.getElementById('search').value = _search;
+            }*@
+            // Có thể gán trực tiếp cho SelectList bên Controller
+            //if (_catid != '') {
+            //    let parseCatId = document.getElementById('txtCatID');
+            //    parseCatId.value = parseInt(_catid)
+            //}
+
+            document.getElementById('search').addEventListener('keyup', function (e) {
+                var search = this.value;
+
+                var CatIDElement = document.getElementById('txtCatID');
+                document.getElementById('catId').value = CatIDElement.options[CatIDElement.selectedIndex].value;
+
+                var catIdValue = document.getElementById('catId').value;
+                if (!(typeof catIdValue == 'number' && !isNaN(catIdValue) && catIdValue > 0)) {
+                    catIdValue = 0;
+                }
+
+                var page = document.querySelectorAll(".page-item.active > .page-link")[0].innerText;
+                if (page == undefined) {
+                    page = 0;
+                }
+
+                $.ajax({
+                    url: "/Admin/Search/FindProduct",
+                    //dataType: "json",
+                    type: "POST",
+                    data: {
+                        search: search,
+                        catId: catIdValue,
+                        page: 1
+                    }
+                }).then(function (msg) {
+                    $("#myPartial").html("");
+                    $("#myPartial").html(msg);
+
+                }).fail(function (err, txt) {
+                    console.log("Failed: \n" + JSON.stringify(err));
+                })
+            })
+
+            document.getElementById('txtCatID').addEventListener('change', function (e) {
+                document.getElementById('catId').value = this.options[this.selectedIndex].value;
+                $('#frmHidden').submit();
+            })
+
+        })
+    </script>
+}

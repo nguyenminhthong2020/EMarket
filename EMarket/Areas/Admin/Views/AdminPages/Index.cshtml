@@ -1,0 +1,89 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<EMarket.Models.Page>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách page trang " + CurrentPage;
+
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-action="Index">Quản lý page</a>
+            <span class="breadcrumb-item active">@ViewData["Title"]</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-sm-12 col-md-4">
+                <a class="btn btn-success" asp-action="Create">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive" style="overflow: hidden;">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Page name</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string url = $"/page/{item.Alias}";
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(_ => item.PageId)
+                            </td>
+                            <td>
+                                <a href="@url" target="_bank">@item.PageName</a>
+                            </td>
+                            <td>
+                                @if (item.Published == true)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div>Publish</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                        <div>Non-Publish</div>
+                                    </div>
+                                }
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-primary m-r-5" asp-action="Details" asp-route-id="@item.PageId">Chi tiết</a>
+                                <a class="btn btn-warning m-r-5" asp-action="Edit" asp-route-id="@item.PageId">Sửa</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.PageId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="d-flex flex-row justify-content-center">
+                <ul class="pagination">
+                    <pager class="pager-container"
+                           list="@Model"
+                           asp-area="Admin"
+                           asp-controller="AdminPages"
+                           asp-action="Index"></pager>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

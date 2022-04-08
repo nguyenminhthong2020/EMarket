@@ -1,0 +1,172 @@
+﻿@model EMarket.Models.Page
+
+
+@{
+    ViewData["Title"] = "Xóa Page " + Model.PageId;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    ViewBag.PageController = "AdminPages";
+    ViewBag.PageAction = "Index";
+    ViewBag.PageControllerName = "Quản lý page";
+    ViewBag.PageActionName = "Chi tiết";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="Index">@ViewBag.PageControllerName</a>
+            <a asp-area="Admin" asp-controller="@ViewBag.PageController" asp-action="@ViewBag.PageAction"><span class="breadcrumb-item active"> > @ViewBag.PageActionName</span></a>
+        </nav>
+    </div>
+</div>
+<h2 class="mb-4">Xóa Page</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="product-info-table m-t-20">
+                        <tbody>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.PageId)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.PageId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.PageName)</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.PageName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Public</td>
+                                <td>
+                                    @if (Model.Published)
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-1" checked="" disabled="">
+                                            <label for="switch-1"></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-2" disabled="">
+                                            <label for="switch-2"></label>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Alias</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Alias)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ngày tạo</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.CreatedDate)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Tiêu đề</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Title)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">MetaDesc</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.MetaDesc)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">MetaKey</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.MetaKey)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Orderding</td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Ordering)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-semibold">Ảnh đại diện</td>
+                                <td>
+                                    <img width="200" height="200" src="~/images/pages/@Model.Thumb" alt="@Model.Title" />
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="mt-1">
+                        <h5 class="text-dark font-weight-semibold">Mô tả sản phẩm</h5>
+                        <div class="mt-2">
+                            <textarea asp-for="Contents">
+                                    </textarea>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="row col-sm-12 col-md-6">
+                            <div>
+                                <span class="text-danger" style="font-size: 20px;">Xác nhận xóa ?</span>
+                            </div>
+                            <div class="ml-4">
+                                <form asp-action="Delete" asp-route-id="@Model.PageId">
+                                    <input type="hidden" asp-for="PageId" />
+                                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Index">&nbsp;< Quay lại</a>
+</div>
+
+@section CSS{
+    <style>
+        .ck.ck-editor__main > .ck-editor__editable {
+            min-height: 200px !important;
+        }
+    </style>
+}
+
+@section Scripts{
+
+    <script src="~/Adminassets/vendors/select2/select2.min.js"></script>
+    <script src="~/Adminassets/vendors/quill/quill.min.js"></script>
+    <script src="~/Adminassets/js/pages/e-commerce-product-edit.js"></script>
+    <script src="~/Adminassets/vendors/ckeditor/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Contents'), {
+                licenseKey: '',
+
+            })
+            .then(editor => {
+                window.editor = editor;
+
+                editor.isReadOnly = true;
+            })
+            .catch(error => {
+                console.error('Oops, something went wrong!');
+                console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                console.warn('Build id: mxefwd8uabpg-nvqywtx4rvf5');
+                console.error(error);
+            });
+    </script>
+}
+

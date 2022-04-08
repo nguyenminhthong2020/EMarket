@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #nullable disable
 
@@ -13,6 +14,8 @@ namespace EMarket.Models
         }
 
         public int CatId { get; set; }
+
+        [DisplayName("Tên danh mục")]
         public string CatName { get; set; }
         public string Description { get; set; }
         public int? ParentId { get; set; }

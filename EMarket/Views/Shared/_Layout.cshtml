@@ -28,7 +28,7 @@
 
     <!-- Style CSS -->
     <link rel="stylesheet" href="~/assets/css/style.css">
-
+    @RenderSection("CSS", required: false)
 </head>
 
 <body>
@@ -71,6 +71,7 @@
 
     <!--Main JS (Common Activation Codes)-->
     <script src="~/assets/js/main.js"></script>
+    <script src="https://kit.fontawesome.com/6ecb6d05ee.js" crossorigin="anonymous"></script>
     @await Component.InvokeAsync("Notyf")
     @await Component.InvokeAsync("Toastify")
     @await RenderSectionAsync("Scripts", required: false)

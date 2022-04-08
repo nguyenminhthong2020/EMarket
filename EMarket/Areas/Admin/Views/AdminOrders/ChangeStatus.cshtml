@@ -1,0 +1,98 @@
+﻿@model EMarket.Models.Order
+@*@{
+        ViewData["Title"] = "Thay đổi trạng thái đơn hàng";
+        Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    }*@
+
+@*<div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a class="breadcrumb-item" asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Order list</a>
+                <span class="breadcrumb-item active">Order infomation</span>
+            </nav>
+        </div>
+    </div>*@
+<div class="modal-body">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">THÔNG TIN ĐƠN HÀNG #@Model.OrderId</h4>
+            <div class="table-responsive">
+                <table class="product-info-table m-t-20">
+                    <tbody>
+                        <tr>
+                            <td>ID:</td>
+                            <td class="text-dark font-weight-semibold">#@Model.OrderId</td>
+                        </tr>
+                        <tr>
+                            <td>Ngày mua: </td>
+                            <td>@Model.OrderDate</td>
+                        </tr>
+                        <tr>
+                            <td>Khách hàng:</td>
+                            <td>@Model.Customer.FullName</td>
+                        </tr>
+                        <tr>
+                            <td>số điện thoại: </td>
+                            <td>@Model.Customer.Phone</td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ: </td>
+                            <td>@Model.Customer.Address</td>
+                        </tr>
+                        <tr>
+                            <td>Tổng tiền: </td>
+                            <td>$@Model.TotalMoney.ToString("#,##0")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form asp-area="Admin" asp-controller="AdminOrders" asp-action="ChangeStatus" asp-route-id="@Model.OrderId" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="OrderId" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Trạng thái đơn hàng</label>
+                            <select class="form-control" asp-for="TransactStatusId" asp-items="@ViewBag.TrangThai" required>
+                                <option value="0" disabled selected>Choose order status</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group d-flex align-items-center">
+                    <div class="switch m-r-10">
+                        @if (Model.Paid)
+                        {
+                            <input type="checkbox" asp-for="Paid" checked=""> }
+                        else
+                        {
+                            <input type="checkbox" asp-for="Paid">}
+                        <label for="Paid"></label>
+                    </div>
+                    <label>Đã thanh toán</label>
+                </div>
+                <div class="form-group d-flex align-items-center">
+                    <div class="switch m-r-10">
+                        @if (Model.Deleted)
+                        {
+                            <input type="checkbox" asp-for="Deleted"> }
+                        else
+                        {
+                            <input type="checkbox" asp-for="Deleted">}
+                        <label for="Deleted"></label>
+                    </div>
+                    <label>Đơn hàng bị hủy</label>
+                </div>
+                <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+            </form>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+</div>
